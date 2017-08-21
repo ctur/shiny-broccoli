@@ -103,6 +103,26 @@
     //expressions or removing 
     //them before shipping
 
+    var y = "global";
+    function test(x) {
+        if (x) {
+            eval("var y = 'local'; "); // dynamic binding
+
+        }
+        return y;
+    }
+    console.log(test(true));
+    console.log(test(false));
+
+    var y = "global";
+    function test(src) {
+        // Explicit nested scope
+        (function () { eval(src); })(); 
+        return y;
+    }
+
+    console.log(test("var y = 'local';"));
+    console.log(test("var z = 'local';"));
 
 
 })();// IIFE (iffy)

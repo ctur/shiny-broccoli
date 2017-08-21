@@ -233,17 +233,55 @@ var x = "global";
     console.log(aIndex);
     console.log(alphabet);
 
-    // Displays 0 - 10000 characters by UTF - 16 code unit *
-    //for (var i = 0; i < 10000; i++) {
-    //    var a = String.fromCharCode(i);
-    //    console.log("Char code: " + i + " Character: " + a);
-    //}
+     //Displays 0 - 10000 characters by UTF - 16 code unit *
+    for (var i = 0; i < 60000; i++) {
+        var a = String.fromCharCode(i);
+        console.log("Char code: " + i + " Character: " + a);
+    }
 
     var digits = "";
     for (var i = 0; i < 10; i++) {
         digits += i;
     }
     console.log(digits);
+
+    var random = "";
+
+    for (var i = 0; i < 8; i++) {
+        random += String.fromCharCode(Math.floor(Math.random() * 26)
+                                        + aIndex);
+    }
+
+    console.log(random);
+
+    // last 3 for loop building string
+    // this buildString loop will be used for utility purposes
+
+    function buildString(n, callback) {
+        var result = "";
+        for (var i = 0; i < n; i++) {
+            result += callback(i);
+        }
+        return result;
+    }
+
+    var alphabet = buildString(26, function (i) {
+        return String.fromCharCode(aIndex + i);
+    });
+
+    console.log(alphabet);
+
+    var digits = buildString(10, function (i) {
+        return i;
+    });
+
+    console.log(digits);
+
+    var random = buildString(8, function (i) {
+        return String.fromCharCode(Math.floor(Math.random() * 26) + aIndex);
+    });
+
+    console.log(random);
 })();
 
 

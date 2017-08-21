@@ -48,5 +48,65 @@
 
     console.log("1.0e0" == { valueOf: function () { return true; } }); // true
 
+    // prints last element of the array
+    //my_array.slice(-1)[0];
 
-})();
+    var b;
+    (function wrapElements(a) {
+        var a = a | [10, 20, 30, 40, 50];
+        var result = [];
+        for (var i = 0, n = a.length; i < n; i++){
+
+            (function() {
+                var j = i;
+                result[i] = function () { return a[j]; };
+            })();
+        }
+        console.log(result);
+        return result;
+        b = result;
+    })();
+
+    //var wrapped = wrapElements([10, 20, 30, 40, 50]);
+
+    //console.log(b);
+
+    // Function expressions
+    var f = function find(tree, key) {
+        if (!tree) {
+            return null;
+        }
+
+        if (tree.key === key) {
+            return tree.value;
+        }
+
+        return find(tree.left, key) ||
+               find(tree.right, key);
+    };
+
+    // same expression
+    var f = function (tree, key) {
+        if (!tree) {
+            return null;
+        }
+
+        if (tree.key === value) {
+            return tree.value;
+        }
+
+        return f(tree.left, key) ||
+               f(tree.right, key);
+    };
+
+    //Consider avoiding named function 
+    //expressions or removing 
+    //them before shipping
+
+
+
+})();// IIFE (iffy)
+
+
+
+

@@ -124,8 +124,127 @@
     console.log(test("var y = 'local';"));
     console.log(test("var z = 'local';"));
 
+    var x = "global";
+    function test() {
+        var x = "local";
+        return eval("x"); // direct eval
+    };
+    console.log("       direct 'eval' ");
+    console.log(test());
+
+   
+
 
 })();// IIFE (iffy)
+
+var x = "global";
+
+(function () {
+    //console.log("       indirect eval ");
+    //var x = "globalss";
+    //function test() {
+    //    var x = "local";
+    //    var f = eval;
+    //    return f("x"); // indirect eval
+    //}
+    //console.log(test());
+
+    // simple function call xD!
+    function hello(username) {
+        return "hello, " + username;
+    }
+
+    console.log(hello("Keyser Söze"));
+
+    // "Methods in JavaScript are nothing more than object properties that happen to be functions."
+    var obj = {
+        hello: function () {
+            return "hello, " + this.username;
+        },
+        username: "Hans Gruber"
+    };
+    console.log(obj.hello());
+
+    var obj2 = {
+        hello: obj.hello,
+        username: "Boo Radley"
+    };
+    console.log(obj2.hello());
+
+    // Constructor function
+    //  for initializing the object
+    function User(name, passwordHash) {
+        this.name = name;
+        this.passwordHash = passwordHash;
+    }
+
+    var u = new User("sfalken",
+                     "8u8dsfa7sf7ewa87fa7saf");
+    console.log(u.name);
+
+    // Higher - order functions
+    function compareNumbers(x, y) {
+        if (x < y) {
+            return -1;
+        }
+
+        if (x > y) {
+            return 1;
+        }
+        return 0;
+
+    }
+
+    
+    console.log([3, 1, 4, 1, 5, 9].sort(compareNumbers));
+
+    console.log(
+        [3, 1, 4, 1, 5, 9].sort(function(x, y){
+            if(x < y){
+                return -1;
+            }
+            if( x > y){
+                return 1;
+            }
+            return 0;
+        }));
+
+    var names = ["Fred", "Wilma", "Pebbles"];
+    var upper = [];
+    for (var i = 0, n = names.length; i < n; i++)
+    {
+        upper[i] = names[i].toUpperCase();
+    }
+    console.log(upper); // ["FRED", "WILMA", "PEBBLES"]
+
+    var name = ["Fred", "Wilma", "Pebbles"];
+    var upper = names.map(function (name) {
+        return name.toUpperCase();
+    });
+    console.log(upper);
+
+    var aIndex = "a".charCodeAt(0);
+
+    var alphabet = "";
+    for (var i = 0; i < 26; i++) {
+        alphabet += String.fromCharCode(aIndex + i);
+        
+    }
+    console.log(aIndex);
+    console.log(alphabet);
+
+    // Displays 0 - 10000 characters by UTF - 16 code unit *
+    //for (var i = 0; i < 10000; i++) {
+    //    var a = String.fromCharCode(i);
+    //    console.log("Char code: " + i + " Character: " + a);
+    //}
+
+    var digits = "";
+    for (var i = 0; i < 10; i++) {
+        digits += i;
+    }
+    console.log(digits);
+})();
 
 
 

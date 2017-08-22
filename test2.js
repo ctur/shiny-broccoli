@@ -97,8 +97,8 @@
     console.log(it.next());
     console.log(it.next());
 
-    function value() {
-        var i = 0, n = arguments.length;
+    function values() {
+        var i = 0, n = arguments.length, a = arguments;
         return {
             hasNext: function () {
                 return i < n;
@@ -107,10 +107,104 @@
                 if (i >= n) {
                     throw new Error("end of iteration");
                 }
-                return arguments[i++]; // wrong arguments
+                return a[i++]; // wrong arguments
             }
         }
 
     };
 
+    var buffer = {
+        entries: [],
+        add: function (s) {
+            this.entries.push(s);
+        },
+        concat: function () {
+            return this.entries.join("");
+        }
+    };//buffer variable
+
+    // var source = ["867", "-", "5309"];
+    // this throws error because global object has not 'entries' property.
+    //source.forEach(buffer.add);
+
+    //var source = ["867", "-", "5309"];
+    //source.forEach(buffer.add, buffer);
+    //buffer.join();
+
+    //var source = ["867", "-", "5309"];
+    //source.forEach(function () {
+    //    buffer.add(s);
+    //});
+    //buffer.join();
+
+    //var source = ["867", "-", "5309"];
+    //source.forEach(buffer.add.bind(buffer));
+    //buffer.join();
+
+            //function simpleURL(protocol, domain, path) {
+            //    return protocol + "://" + domain + "/" + path;
+            //};
+
+            //var urls = paths.map(function (path) {
+            //    return simpleURL("http", siteDomain, path);
+            //});
+
+            //var urls = paths.map(simpleURL.bind(null, "http", siteDomain));
+
+
+            //function repeat(n, action) {
+            //    for (var i = 0; i < n; i++){
+            //        eval(action);        
+            //    };
+            //};
+
+    // Benchmark of a function
+    //var start = [], end = [], timings = [];
+    //repeat(1000,
+    //        "start.push(Date.now()); f(); end.push(Date.now());");
+    //for (var i = 0, n = start.length; i < n; i++) {
+    //    timings[i] = end[i] - start[i];
+    //};
+
+    //function benchmark() {
+    //    var start = [], end = [], timings = [];
+    //    repeat(1000,
+    //        "start.push(Date.now()); f(); end.push(Date.now());");
+    //    for (var i = 0, n = start.length; i < n ; i++) {
+    //        timings[i] = end[i] - start[i];
+    //    };
+
+    //    return timings;
+    //};
+
+    function repeat(n, action) {
+        for (var i = 0; i < n; i++) {
+            action();
+        }
+    };
+
+    function f() { console.log(" " )};
+
+    function benchmark() {
+        var start = [], end = [], timings = [];
+        repeat(1000, function () {
+            start.push(Date.now());
+            f();
+            end.push(Date.now());
+        });
+
+        for (var i = 0, n = start.length; i < n; i++) {
+            timings[i] = end[i] - start[i];
+        }
+
+        return timings;
+    };
+
+    console.log(benchmark());
+
+
+
+    
+    
+    
 })();

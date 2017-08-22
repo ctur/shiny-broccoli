@@ -200,11 +200,43 @@
         return timings;
     };
 
-    console.log(benchmark());
+    //console.log(benchmark());
 
+    console.log((function (x) {
+        return x + 1;
+    }).toString());
 
+    console.log((function(x){
+        return x + 1;
+    }).bind(16).toString());
 
-    
-    
+    function getCallStack() {
+        var stack = [];
+
+        for (var f = getCallStack.caller; f; f = f.caller) {
+            stack.push(f);
+        }
+
+        return stack;
+    };
+
+    function f1() {
+        return getCallStack();
+    };
+
+    function f2(){
+        return f1();
+    };
+
+    var trace = f2();
+    console.log(trace);
+
+    // infinite loop
+    function f(n) {
+        return n === 0 ? getCallStack() : f(n - 1);
+    };
+
+    //var trace = f(1);
+    //console.log(trace());
     
 })();

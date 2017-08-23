@@ -91,6 +91,109 @@
     "toString" in dict;
     "valueOf" in dict;
 
+    //var hasOwn = Object.prototype.hasOwnProperty;
+    // or better:
+    var hasOwn = {}.hasOwnProperty;
+
+    console.log(hasOwn.call(dict, "alice"));
+
+    function Dict(elements) {
+        // allow an optional initial table
+        this.elements = elements || {}; // simple object
+    }
+
+    Dict.prototype.has = function (key) {
+        // own property only
+        return {}.hasOwnProperty.call(this.elements, key);
+    };
+
+    Dict.prototype.get = function (key) {
+        // own property only 
+        return this.has(key)
+                ? this.elements[key]
+                : undefined;
+    };
+
+    Dict.prototype.set = function (key, val) {
+        this.elements[key] = val;
+    };
+
+    Dict.prototype.remove = function (key) {
+        delete this.elements[key];
+    };
+
+    // Maximum portability version
+    function Dict(elements) {
+        // allow an optional initial table
+        this.elements = elements || {}; // Simple object
+        this.hasSpecialProto = false; //has "__proto__" key?
+        this.specialProto = undefined; // "__proto__" element
+    };
+
+    Dict.prototype.has = function (key) {
+        if (key === "__proto__") {
+            return this.hasSpecialProto;
+        }
+        // own property only
+        return {}.hasOwnProperty.call(this.elements, key);
+    };
+
+    Dict.prototype.get = function (key) {
+        if (key === "__proto__") {
+            return this.specialProto;
+        }
+
+        // own property only
+        return this.has(key)
+                ? this.elements[key]
+                : undefined;
+    };
+
+    Dict.prototype.set = function (key, val) {
+        if (key === "__proto__") {
+            this.hasSpecialProto = true;
+            this.specialProto = val;
+        } else {
+            this.elements[key] = val;
+        }
+    };
+
+    Dict.prototype.remove = function (key) {
+        if (key === "__proto__") {
+            this.hasSpecialProto = false;
+            this.specialProto = undefined;
+        } else {
+            delete this.elements[key];
+        }
+    };
+
+    var dict = new Dict();
+    console.log(dict.has("__proto__"));
+
+
+    //      46
+    console.log("\n\n         " + 46);
+
+    function report(highScores) {
+        var result = "";
+        for (var i = 0, n = highScores.length; i < n; i++) {
+            var score = highScores[i];
+            result += (i + 1) + ". " +
+                       score.name + ": " + score.points + "\n";
+        }
+        return result;
+    };
+
+    // order is precise on array objects
+    console.log(report([
+        { name: "Hank ", points:   1110100 },
+        { name: "Steve", points: 1064500 },
+        { name: "Billy", points: 1050200}
+    ]));
+
+    //      47
+    console.log("\n\n         " + 47);
+
 
 
 })();

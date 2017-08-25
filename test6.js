@@ -221,13 +221,123 @@
     // 49 Prefer for loops
 
     var scores = [98, 74, 85, 77, 93, 100, 89];
+    var players = [98, 74, 85, 77, 93, 100, 89];
+    var input = [98, 74, 85, 77, 93, 100, 89];
     var total = 0;
-    for(var i = 0; n = scores.length; i < n; i++){
+    for(var i = 0, n = scores.length; i < n; i++){
         total += scores[i];
     }
     
     var mean = total / scores.length;
     mean; // 88
+
+    // 50 Iteration
+    // Common JS patterns
+
+
+    //for (var i = 0, n = players.length; i < n; i++) {
+    //    players[i].score ++;
+    //}
+
+    // Really? xD!
+    players.forEach(function(p) {
+        p.score++;
+    });
+
+
+    // 1st way
+    var trimmed = [];
+    for(var i = 0, n = input.length ; i < n ; i++){
+        trimmed.push(input[i].trim());
+    }
+
+    // 2nd way
+    var trimmed = [];
+    input.forEach(function(s){
+        trimmed.push(s.trim());
+    });
+
+    // 3rd and elegant way
+    var trimmed = input.map(function(s) {
+        return s.trim();
+    });
+
+
+    listings.filter(function(listing){
+        return listing.price >= min && listing.price <= max;
+    });
+
+    function takeWhile(a, pred){
+        var result = [];
+        for (var i = 0, n = a.length; i < n; i++) {
+            if (!pred(a[i], i)) {
+                break;
+            }
+            result[i] = a[i];
+        }
+        return result;
+    }
+
+    var prefix = takeWhile([1, 2, 4, 8, 16, 32], function (n) {
+        return n < 10;
+    });
+
+    Array.prototype.takeWhile = function (pred) {
+        var result = [];
+        for (var i = 0, n = this.length; i < n; i++) {
+            if (!pred(this[i], i)) {
+                break;
+            }
+
+            result[i] = this[i];
+        }
+        return result;
+    };
+
+    var prefix = [1, 2, 4, 8, 16, 32].takeWhile(function (n) {
+        return n < 10;
+    });
+
+    function takeWhile(a, pred) {
+        var result = [];
+        var earlyExit = {}; // unique value signaling loop break
+        
+        try{
+            a.forEach(function(x, i){
+                if(!pred(x)){
+                    throw earlyExit;
+                }
+                result[i] = x;
+            });
+        } catch (e) {
+            if (e !== earlyExit) { // catch only earlyExit
+                throw e;
+            }
+        }
+        return result;
+    }
+
+    [1, 10, 100].some(function (x) { return x > 5; }); 
+    [1, 10, 100].some(function (x) { return x < 0; });
+    
+    [1, 2, 3, 4, 5].every(function (x) { return x > 0; });
+    [1, 2, 3, 4, 5].every(function (x) { return x < 3; });
+
+    // last version of takeWhile
+    function takeWhile(a, pred) {
+        var result = [];
+        a.every(function (x, i) {
+            if (!pred(x)) {
+                return false; // break
+            }
+            result[i] = x;
+            return true; // continue
+        });
+        return result;
+    }
+
+
+
 
 
 
